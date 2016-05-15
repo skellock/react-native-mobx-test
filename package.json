@@ -14,5 +14,8 @@
   },
   "devDependencies": {
     "reactotron": "^0.6.1"
+  },
+  "standard": {
+    "parser": "babel-eslint"
   }
 }
