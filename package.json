@@ -1,0 +1,18 @@
+{
+  "name": "ReactNativeMobx",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "mobx": "^2.1.6",
+    "mobx-react": "^3.1.0",
+    "react": "^0.14.8",
+    "react-native": "^0.25.1"
+  },
+  "devDependencies": {
+    "reactotron": "^0.6.1"
+  }
+}
