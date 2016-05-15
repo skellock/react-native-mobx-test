@@ -1,5 +1,7 @@
-import mobx, { observable, computed } from 'mobx'
+import { observable, computed, autorun } from 'mobx'
 import tron from 'reactotron'
+
+const isHalfEven = (value) => value % 2 === 0
 
 const appState = new class AppState {
   // a simple counter
@@ -9,21 +11,25 @@ const appState = new class AppState {
   @computed get half () {
     return this.counter / 2
   }
+
+  // dependant computed columns
+  @computed get isHalfEven () {
+    return isHalfEven(this.half)
+  }
 }
 
 const inc = () => {
   appState.counter++
 }
 
-mobx.autorun(() => {
-  const { half, counter } = appState
-  // tron.log({ counter, half })
-  tron.log(mobx.toJSON(appState))
+autorun(() => {
+  const { counter, half, isHalfEven } = appState
+  tron.log({ counter, half, isHalfEven })
 })
 
-mobx.observe(appState, 'half', (newValue, oldValue) => {
-  if (newValue % 2 === 0) {
-    tron.log(`half changed from ${oldValue} to ${newValue}`)
+autorun(() => {
+  if (appState.isHalfEven) {
+    tron.log(`half is now even ${appState.half}`)
   }
 })
 
