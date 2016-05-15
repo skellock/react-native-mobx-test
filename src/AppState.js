@@ -1,19 +1,33 @@
-import mobx from 'mobx'
+import mobx, { observable, computed } from 'mobx'
 import tron from 'reactotron'
 
-const appState = mobx.observable({
-  counter: 0
-})
+const appState = new class AppState {
+  // a simple counter
+  @observable counter = 50
+
+  // an example of a computed column
+  @computed get half () {
+    return this.counter / 2
+  }
+}
 
 const inc = () => {
   appState.counter++
-  setTimeout(inc, 2000)
 }
 
 mobx.autorun(() => {
-  tron.log(appState)
+  const { half, counter } = appState
+  // tron.log({ counter, half })
+  tron.log(mobx.toJSON(appState))
 })
 
-inc()
+mobx.observe(appState, 'half', (newValue, oldValue) => {
+  if (newValue % 2 === 0) {
+    tron.log(`half changed from ${oldValue} to ${newValue}`)
+  }
+})
+
+setInterval(inc, 2000)
 
 export default appState
+
